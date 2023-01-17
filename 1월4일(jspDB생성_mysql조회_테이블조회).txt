@@ -1,0 +1,149 @@
+
+1. 데이터베이스 새로 만들기
+
+관리자 권한으로 접속!
+> conn system/1234
+
+
+create tablespce jspspace
+datafile 'C:\oraclexe\app\oracle\oradata\XE\jspspace.dbf'	//경로는 정해져 있다
+size 5M;
+
+
+2. 유저 만들기
+create user jsp				// 유저 이름
+identified by 1234
+default tablespace jspspace		//살아갈 곳
+quota unlimited on jspspace;		//용량 다 쓰기
+
+//--
+맥버전
+create user jsp identified by 1234;
+grant connect, resource, dba to jsp;
+grant create session, create table, create sequence to jsp;
+--//
+
+3. 권한 부여 (총 3개)
+grant create session, create table, create sequence to jsp;
+
+
+4. 테이블 만들기
+create table member(
+ member_idx number
+ , id varchar2(30)
+ , pass varchar2(30)
+ , mail_receive varchar2(3)		-- yes , no
+ ,  primary key(member_idx)		-- 제약조건 2개
+ , constraint chk_mail_receive 		-- 이름
+  check(mail_receive='yes' or mail_receive='no')
+ , regdate date default sysdate
+)
+
+create sequence seq_member
+increment by 1
+start with 1;
+
+create table hobby(
+ hobby_idx number primary key
+ , member_idx number
+ , hobby_name varchar2(30)
+ , constraint fk_member_hobby foreign key(member_idx) references member(member_idx)
+);
+
+create sequence seq_hobby
+increment by 1
+start with 1;
+
+
+
+--
+
+Mysql 버젼
+
+create database jsp;
+use jsp;
+
+
+create table member(
+ member_idx int auto_increment
+ , id varchar(30)
+ , pass varchar(30)
+ , mail_receive varchar(3)
+ , primary key(member_idx)
+ , constraint chk_mail_recieve
+  check(mail_receive='yes' or mail_receive='no')
+ , regdate timestamp default now()
+)default character set utf8;
+
+create table hobby(
+ hobby_idx int primary key auto_increment
+ , member_idx int
+ , hobby_name varchar(30)
+ , constraint fk_member_hobby foreign key(member_idx) references member(member_idx)
+) default character set utf8;
+
+
+** 다른 것 수, 날짜 자료형, 캐릭터 세팅
+
+ int auto_increment / number 
+
+
+테이블 조회
+show tables;
+데이터베이스 조회
+show databases;
+데이터베이스 선택
+use (사용자 이름)
+-
+cmd 창에서 mysql 접속
+>>> mysql -h localhost -u root -p
+-
+ 테이블 구성 조회
+mysql> desc hobby;
++------------+-------------+------+-----+---------+----------------+
+| Field      | Type        | Null | Key | Default | Extra          |
++------------+-------------+------+-----+---------+----------------+
+| hobby_idx  | int(11)     | NO   | PRI | NULL    | auto_increment |
+| member_idx | int(11)     | YES  | MUL | NULL    |                |
+| hobby_name | varchar(30) | YES  |     | NULL    |                |
++------------+-------------+------+-----+---------+----------------+
+
+
+
+cmd 창에서 오라클 접속
+sqlplus (db이름)/(비번)
+
+
+(오라클)
+테이블 조회
+ select table_name from user_tables;
+
+시퀀스 조회
+select * from user_sequences;
+
+
+테이블 구성 조회
+ desc member(테이블이름);
+
+
+--
+두 테이블 조인해서 가져오기
+
+select m.member_idx, id, hobby_name, regdate
+from member m, hobby h
+where m.member_idx=h.member_idx
+
+
+--
+그룹바이로 묶기 (쿼리문)
+
+select m.member_idx, id, count(id) as cnt
+ from member m, hobby h
+ where m.member_idx=h.member_idx
+ group by m.member_idx, id
+
+
+
+왜 기억을 못할까....원리를 알면 되는 건데
+생각을 먼저 하라 !! 들출 생각부터 하지말고
+

@@ -1,0 +1,55 @@
+1) inner join (조인 대상 테이블의 공통된 key를 통해 select 기법)
+
+select ename, dname
+from emp e, dept d
+where e.deptno=d.deptno;
+
+select ename, dname
+from emp e inner join dept d
+on e.deptno=d.deptno;
+
+* inner join을 명시하면 where 대신 on 을 써야 한다!!
+
+--위에 있는 코드와 일치하는 inner조인 문법
+
+
+1) Ford와 같은 부서에서 근무하는 사원들의 평균급여 보다 적은 급여를 받은
+   사원들의 이름, 급여, 부서명을 출력하시오(inner join 명시)
+
+select ename, sal, dname from emp e inner join dept d on e.deptno=d.deptno
+and sal <(select avg(sal) from emp where deptno=(select deptno from emp where ename='FORD'));
+
+
+2) 최대 커미션을 받는 사원과 같은 부서에 근무하는 사원들의 이름, 부서명 출력
+
+select ename, dname from emp e inner join dept d on e.deptno=d.deptno
+and e.deptno=(select deptno from emp where comm=(select max(comm) from emp));
+
+
+3) 30번 부서의 최대급여보다 더 많은 급여를 받는 사원의 이름, 급여, 부서 위치 출력
+
+select ename, sal, dname, loc from emp e inner join dept d on e.deptno=d.deptno
+and sal>(select max(sal) from emp where deptno=30);
+
+
+4) ALLEN의 입사일에서 6개월을 더한 날짜보다, 입사일이 빠른 사원의 사원명, 입사일, 부서명, 위치 출력
+
+select ename, hiredate, dname, loc from emp e inner join dept d on e.deptno=d.deptno
+and hiredate<(select add_months(hiredate, 6) from emp where ename='ALLEN');
+
+
+5) 입사일의 날짜가 짝수인 사원의 이름, 급여, 부서명을 출력하시오
+   EX) 81/05/20 인 겨우 20일을 따져봐야 함
+
+select ename, sal, dname, loc from emp e inner join dept d on e.deptno=d.deptno
+and hiredate=( select from  emp where mod(to_number(to_char(hiredate, 'yyyymmdd')), 2)=0);
+
+
+select ename, sal, dname, loc from emp e inner join dept d on e.deptno=d.deptno
+and mod(to_number(to_char(hiredate, 'yyyymmdd')), 2)=0 from emp;
+
+
+날짜를 숫자로 바꾸기!!
+to_number(to_char(sysdate, 'yyyymmdd')) ; 
+
+

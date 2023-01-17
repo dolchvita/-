@@ -1,0 +1,27 @@
+CREATE TABLE news(
+ news_idx NUMBER primary KEY
+ , title varchar2(100)
+ , writer varchar2(20)
+ , detail clob			// 입력된 데이터 양이 많을 경우 clob으로 설정한다.
+
+ , regdate DATE DEFAULT sysdate
+ , hit NUMBER DEFAULT 0
+);
+
+CREATE SEQUENCE seq_news
+INCREMENT BY 1
+START WITH 1;
+
+
+create table comments(
+ comments_idx NUMBER primary KEY
+ , news_idx NUMBER
+ , ctitle varchar2(100)
+ , cwriter varchar2(20)
+ , cregdate DATE DEFAULT sysdate
+ , CONSTRAINT fk_news_comments FOREIGN key(news_idx) REFERENCES news(news_idx)	--외래키이름 , 참조키 , 참조테이블의 키
+);
+
+CREATE SEQUENCE seq_comments
+INCREMENT BY 1
+START WITH 1;

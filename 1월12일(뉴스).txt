@@ -1,0 +1,31 @@
+create table news(
+ news_idx NUMBER primary KEY
+ , title varchar2(100)
+ , writer varchar2(20)
+ , content varchar2(30)
+ , regdate date default sysdate
+ , hit number default 0
+)
+
+
+create sequence seq_news
+increment by 1
+start with 1
+
+
+
+create table comments(
+ comments_idx NUMBER primary KEY
+ , news_idx NUMBER
+ , msg varchar2(100)
+ , author varchar2(20)
+ , writedate DATE DEFAULT sysdate
+ , CONSTRAINT fk_news_comments FOREIGN key(news_idx) REFERENCES news(news_idx)	--외래키이름 , 참조키 , 참조테이블의 키
+);
+
+
+create sequence seq_comments
+increment by 1
+start with 1
+
+

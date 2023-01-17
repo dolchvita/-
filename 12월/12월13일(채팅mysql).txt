@@ -1,0 +1,17 @@
+<MySQL>
+
+create table chatmember(
+chatmember_idx int primary key auto_increment
+, id varchar2(20)
+, pass varchar2(20)
+, name varchar2(20)
+, regdate timestamp default now()
+) default character set utf8;
+
+
+
+
+
+
+
+

@@ -1,0 +1,16 @@
+product 테이블 생성
+
+--상품 테이블
+create table product(
+	product_idx number primary key
+	, subcategory_idx number
+	, product_name varchar2(20)
+	, brand varchar2(30)
+	, price number default 0
+	, filename varchar2(20)
+	, constraint fk_subcategory_product FOREIGN key(subcategory_idx)
+	REFERENCES subcategory(subcategory_idx)
+);
+
+
+

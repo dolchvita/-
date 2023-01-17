@@ -1,0 +1,9 @@
+토큰 (이클립스 깃 비밀번호)
+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
+
+
+cmd에서 git 저장하는법
+.git으로 이동 cd (위치)
+git add *
+git commit -m '설명'
+git push

@@ -1,0 +1,4 @@
+alter table member
+add name varcher2(30)
+
+/

@@ -1,0 +1,42 @@
+SQL - DBMS가 이해하는 언어
+1) DDL	정의어	: create, drop, alter
+   Data Definitiom Language
+2) DML	조작어	: insert, update, delete
+   Data Manipulation Language
+3) DCL	DB제어어	: revoke, grant
+   Data Control Language
+*select(조회)
+
+-- ANSI SQL (표준을 따르는 SQL)
+
+=======================
+
+제약(=constraint)조건
+데이터의 무결성(올바른 데이터만 받기)
+1. Not null
+2. Unique	: 중복 불허용
+3. Primary key - not null + unique
+4. Check	: 지정한 조건만 받아들임
+5. default	: 기본값 제약조건
+6.foreigm key (외래키)
+
+=======================
+
+Sub query - 쿼리문 안에 또 다른 쿼리문 사용
+
+=======================
+
+집계함수
+1. max() : 최대값
+2. sum() : 합
+3. min() : 최소
+4. avg() : 평균
+5. count() : 레코드 개수
+
+=======================
+
+group by : 중복된 레코드를 그룹화시킴
+집계함수와 친하다.
+
+- Mysql
+오라클 접속 클라이언트 프로그램

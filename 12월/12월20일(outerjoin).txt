@@ -1,0 +1,31 @@
+innerJoin
+참조할 테이블이 있는 컬럼만! 가져옴
+
+OuterJoin
+참조할 테이블이 없는 컬럼도! 가져옴
+
+그룹바이에 명시된 컬럼만이 select절에 올 수 있다 (집계함수 제외)
+
+
+//--
+두 개의 테이블을 조인하여 가져오고 특정 컬럼의 수를 세어 표시한다
+
+select n.news_idx as news_idx , title, writer, regdate, hit, count(c.comments_idx) as cnt
+ from  news  n left outer join  comments c		// 무조건 가져오는 테이블 기준으로 left
+ on n.news_idx = c.news_idx		// NxN 방지
+ group by n.news_idx, title, writer, regdate, hit	// 집계함수 제외 모두 명시해주자
+
+
+--//
+
+
+
+
+
+
+
+
+
+
+
+

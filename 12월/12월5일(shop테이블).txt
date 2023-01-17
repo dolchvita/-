@@ -1,0 +1,88 @@
+CREATE TABLE TopCategory(
+	topcategory_idx NUMBER PRIMARY KEY
+	, topcategory_name varchar2(20)
+);
+
+
+CREATE SEQUENCE seq_topcategory
+INCREMENT BY 1
+START WITH 1;
+
+
+CREATE TABLE SubCategory(
+	subcategory_idx NUMBER PRIMARY KEY
+	, topcategory_idx NUMBER --부모의 pk
+	, subcategory_name varchar2(20)
+	
+	, CONSTRAINT fk_topcategory_subcategory FOREIGN KEY (topcategory_idx)	--조건 이름 제약조건 (대상) 참조 대상
+	REFERENCES topcategory(topcategory_idx)
+);
+
+
+
+CREATE SEQUENCE seq_subcategory
+INCREMENT BY 1
+START WITH 1;
+
+--상위 카테고리 중 '상의' 등록
+INSERT INTO topcategory(topcategory_idx, topcategory_name)
+values(seq_topcategory.nextval, '상의');
+INSERT INTO topcategory(topcategory_idx, topcategory_name)
+values(seq_topcategory.nextval, '하의');
+INSERT INTO topcategory(topcategory_idx, topcategory_name)
+values(seq_topcategory.nextval, '액세서리');
+INSERT INTO topcategory(topcategory_idx, topcategory_name)
+values(seq_topcategory.nextval, '신발');
+
+SELECT * FROM topcategory;
+
+
+INSERT INTO subcategory(subcategory_idx, topcategory_idx, subcategory_name)
+values(seq_subcategory.nextval, 1, '티셔츠');
+INSERT INTO subcategory(subcategory_idx, topcategory_idx, subcategory_name)
+values(seq_subcategory.nextval, 1, '가디건');
+INSERT INTO subcategory(subcategory_idx, topcategory_idx, subcategory_name)
+values(seq_subcategory.nextval, 1, '니트');
+INSERT INTO subcategory(subcategory_idx, topcategory_idx, subcategory_name)
+values(seq_subcategory.nextval, 1, '점퍼');
+
+INSERT INTO subcategory(subcategory_idx, topcategory_idx, subcategory_name)
+values(seq_subcategory.nextval, 2, '면바지');
+INSERT INTO subcategory(subcategory_idx, topcategory_idx, subcategory_name)
+values(seq_subcategory.nextval, 2, '반바지');
+INSERT INTO subcategory(subcategory_idx, topcategory_idx, subcategory_name)
+values(seq_subcategory.nextval, 2, '청바지');
+INSERT INTO subcategory(subcategory_idx, topcategory_idx, subcategory_name)
+values(seq_subcategory.nextval, 2, '레깅스');
+
+INSERT INTO subcategory(subcategory_idx, topcategory_idx, subcategory_name)
+values(seq_subcategory.nextval, 3, '귀걸이');
+INSERT INTO subcategory(subcategory_idx, topcategory_idx, subcategory_name)
+values(seq_subcategory.nextval, 3, '목걸이');
+INSERT INTO subcategory(subcategory_idx, topcategory_idx, subcategory_name)
+values(seq_subcategory.nextval, 3, '팔찌');
+INSERT INTO subcategory(subcategory_idx, topcategory_idx, subcategory_name)
+values(seq_subcategory.nextval, 3, '반지');
+
+INSERT INTO subcategory(subcategory_idx, topcategory_idx, subcategory_name)
+values(seq_subcategory.nextval, 4, '운동화');
+INSERT INTO subcategory(subcategory_idx, topcategory_idx, subcategory_name)
+values(seq_subcategory.nextval, 4, '구두');
+INSERT INTO subcategory(subcategory_idx, topcategory_idx, subcategory_name)
+values(seq_subcategory.nextval, 4, '샌들');
+INSERT INTO subcategory(subcategory_idx, topcategory_idx, subcategory_name)
+values(seq_subcategory.nextval, 4, '슬리퍼');
+
+
+SELECT * FROM subcategory;
+
+DELETE FROM topcategory;
+DELETE FROM subcategory WHERE ;
+
+DROP TABLE topcategory;
+DROP TABLE subcategory;
+DROP sequence seq_topcategory;
+DROP sequence seq_subcategory;
+
+SELECT * FROM TOPCATEGORY;
+SELECT * FROM SUBCATEGORY;
