@@ -18,7 +18,7 @@ primary key를 가져올 때
 max()를 쓰기에는 위험요소가 많다
 
 - currval
-(- last_inset_id() --> mysql 동일한 기능을 하는 함수)
+(- last_insert_id() --> mysql 동일한 기능을 하는 함수)
 
 세션의(주체자) 최신의 시퀀스 값 반환
 *남의 세션에 영향을 받지 않는다는 뜻!
