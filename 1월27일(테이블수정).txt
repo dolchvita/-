@@ -1,0 +1,7 @@
+툴 자체 명령어는 ; 안붙임
+
+쿼리문에서만 ; 주면 됨
+
+alter table member
+add regdate timestamp default now();
+

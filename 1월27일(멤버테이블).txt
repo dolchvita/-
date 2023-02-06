@@ -1,0 +1,17 @@
+
+create table member(
+	member_idx int primary key auto_increment
+	, id varchar(30)
+	, pass varchar(30)
+	, name varchar(50)
+	, email varchar(30)
+	, addr1 varchar(50)
+	, addr2 varchar(50)
+)default character set utf8;
+
+
+insert into member(id, pass, name, email, addr1, addr2)
+value('yeseo', '1234' , '예서', 'yeseo0502@naver.com', '경기도', '일산');
+
+insert into member(id, pass, name, email, addr1, addr2)
+value('zino', '1234' , '지노', 'zino1187@naver.com', '서울', '신촌');
