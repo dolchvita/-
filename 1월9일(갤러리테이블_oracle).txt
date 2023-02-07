@@ -1,0 +1,22 @@
+create table gallery(
+ gallery_idx number primary key
+ , title varchar2(20)
+ , writer varchar2(20)
+ , content clob
+ , regdate date default sysdate
+ , hit number default 0
+ , filename varchar2(30)/
+/
+)
+/
+
+
+
+
+create sequence seq_board
+increment by 1
+start with 1
+
+
+
+
