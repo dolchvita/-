@@ -1,0 +1,191 @@
+SQL> --제약조건 사용 이유:
+SQL> --제대로 된 데이터만 받아들이고 싶어서
+SQL> --즉, 데이터 무결성 때문에
+SQL> --null을 허용하지 않는다 : not null
+SQL> --unique : 중복 불허
+SQL> -- default : 기본값
+SQL> -- check : 지정된 조건에 맞는 데이터만 허용
+SQL> -- primary key : unique + not null
+SQL> -- primary key가 제일 중요!
+SQL> select table_name from user_tables;
+
+TABLE_NAME                                                                      
+------------------------------------------------------------                    
+TEST                                                                            
+DEPT                                                                            
+EMP                                                                             
+MEMBER                                                                          
+MEMBER2                                                                         
+MEMBER3                                                                         
+MEMBER5                                                                         
+MEMBER6                                                                         
+MEMBER7                                                                         
+MEMBER8                                                                         
+MEMBER9                                                                         
+
+11 rows selected.
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  create table member10(
+  2  	member10_id number primary key
+  3  	, name varchar2(20)
+  4  	, age number default 20
+  5* )
+SQL> /
+
+Table created.
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1* insert into member10(member10_id, name) values(1, 'batman')
+SQL> /
+
+1 row created.
+
+SQL> /
+insert into member10(member10_id, name) values(1, 'batman')
+*
+ERROR at line 1:
+ORA-00001: unique constraint (JAVA.SYS_C007016) violated 
+
+
+SQL> --중복 허용 불가!
+SQL> select * from member10;
+
+MEMBER10_ID NAME                                            AGE                 
+----------- ---------------------------------------- ----------                 
+          1 batman                                           20                 
+
+SQL> -- 일반적으로 primary key로 지정된 컬럼의 값은
+SQL> -- 개발자가 직접 넣는게 아니라, 시스템으로부터 정보를 얻어 자동으로 한다
+SQL> -- 오라클에서는 sequence 라 불리는 자동 증가 전용 객체가 있다!
+SQL> ed
+Wrote file afiedt.buf
+
+  1  create sequence seq_member10
+  2  increment by 1
+  3* start with 1
+  4  
+SQL> /
+create sequence seq_member10
+*
+ERROR at line 1:
+ORA-01031: insufficient privileges 
+
+
+SQL> -- 권한이 없으므로 관리자에게 권한을 부여받자
+SQL> conn system/1234
+Connected.
+SQL> show user
+USER is "SYSTEM"
+SQL> -- DDL, DML, DCL(grant, revoke)
+SQL> ed
+Wrote file afiedt.buf
+
+  1* grant create sequence to java
+SQL> /
+
+Grant succeeded.
+
+SQL> conn java/1234
+Connected.
+SQL> --java 유저로 전환
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  create sequence seq_member10
+  2  increment by 1
+  3* start with 1
+SQL> /
+
+Sequence created.
+
+SQL> -- 생성된 시퀀스를 이용하여 insert하기
+SQL> ed
+Wrote file afiedt.buf
+
+  1  insert into member10(member10_id, name)
+  2  values(seq_member10.nextval, 'batman
+  3* ')
+SQL> /
+insert into member10(member10_id, name)
+*
+ERROR at line 1:
+ORA-00001: unique constraint (JAVA.SYS_C007016) violated 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  insert into member10(member10_id, name)
+  2  values(seq_member10.nextval, 'batman
+  3* ')
+SQL> delete from member10;
+
+1 row deleted.
+
+SQL> commit;
+
+Commit complete.
+
+SQL> --먼저 있는 것을 지우고 가자
+SQL> ed
+Wrote file afiedt.buf
+
+  1  insert into member10(member10_id, name)
+  2* values(seq_mamber10,nextval. 'superman')
+SQL> /
+values(seq_mamber10,nextval. 'superman')
+                             *
+ERROR at line 2:
+ORA-01747: invalid user.table.column, table.column, or column specification 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  insert into member10(member10_id, name)
+  2* values(seq_mamber10.nextval, 'superman')
+SQL> /
+values(seq_mamber10.nextval, 'superman')
+       *
+ERROR at line 2:
+ORA-02289: sequence does not exist 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  insert into member10(member10_id, name)
+  2* values(seq_member10.nextval, 'superman')
+SQL> /
+
+1 row created.
+
+SQL> /
+
+1 row created.
+
+SQL> /
+
+1 row created.
+
+SQL> /
+
+1 row created.
+
+SQL> select * from member10
+  2  ;
+
+MEMBER10_ID NAME                                            AGE                 
+----------- ---------------------------------------- ----------                 
+          2 superman                                         20                 
+          3 superman                                         20                 
+          4 superman                                         20                 
+          5 superman                                         20                 
+
+SQL> spool off

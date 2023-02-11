@@ -1,0 +1,33 @@
+ --부서별 근무자 수 및 부서명을 출력하시오
+select dname, count(ename) from dept d inner join emp e on d.deptno=e.deptno
+group by dname;
+
+** group by 는 명시된 컬럼을 상대로 해야함! (집계함수 제외)
+
+
+- outer join
+  공통되지 않아도 무조건 가져오고 싶은 컬럼을 지정하여
+가져올 수 있음! (값이 존재하지 않더라도!)
+
+꼭 가져올 기준을 기준으로 왼 left 명시
+
+
+
+ --부서별 근무자 수 및 부서명을 출력하시오
+
+select dname, count(ename) from dept d left outer join emp e on d.deptno=e.deptno
+group by dname;
+
+**왼쪽에 명시한 테이블을 무조건 가져오겠다
+
+
+DNAME                        COUNT(ENAME)
+---------------------------- ------------
+ACCOUNTING                              3
+OPERATIONS                              0
+RESEARCH                                5
+SALES                                   6
+
+
+
+

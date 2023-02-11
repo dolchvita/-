@@ -1,0 +1,60 @@
+> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| java               |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+-- 보유한 데이터베이스들
+
+
+--java라는 데이터베이스를 사용한다
+mysql> use java;
+Database changed
+
+
+-- 그 안에 담긴 테이블들
+mysql> show tables;
++----------------+
+| Tables_in_java |
++----------------+
+| dept           |
+| emp            |
+| emp2           |
+| member         |
+| notice         |
++----------------+
+
+
+-- 이제 데이터베이스를 만들어보자
+> create database javase;
+
+> create table board(
+    -> board_id int primary key auto_increment		//프라이머리 키와 자동 증가하는 키
+    -> , title varchar(30)				//제목 (메모리변환을 위해 varchar사용)
+    -> , writer varchar(20)				//글쓴이
+    -> , content text				//내용 (내용 길이는 제한 없음을 의미하는 text)
+    -> , regdate timestamp default now()		//작성일 (디폴트값 now() )
+    -> , hit int default 0				//조회수 (디폴트값 0)
+    -> ) default character set utf8;			//표를 닫고 한글깨짐 방지로 utf8 지정(오라클은 자동임)
+
+
+-- 테스트로 제목에 내용을 입력해본다
+mysql> insert into board(title) values('테스트');
+
+mysql> select * from board;
++----------+--------+--------+---------+---------------------+------+
+| board_id | title  | writer | content | regdate             | hit  |
++----------+--------+--------+---------+---------------------+------+
+|        1 | 테스트 | NULL   | NULL    | 2022-11-28 12:24:39 |    0 |
++----------+--------+--------+---------+---------------------+------+
+
+
+
+
+
+
+

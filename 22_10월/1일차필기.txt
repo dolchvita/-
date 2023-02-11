@@ -1,0 +1,50 @@
+SQL> --시스템 계정으로db\ 우리가 만든 데이터베이스를 사용할 유저를 생성해보자
+SQL> ed
+Wrote file afiedt.buf
+
+  1  create user java
+  2  identified by 1234
+  3  default tablespace front
+  4* quota unlimited on front
+SQL> /
+
+User created.
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  create user java
+  2  identified by 1234
+  3  default tablespace front
+  4* quota unlimited on front
+SQL> /
+create user java
+            *
+ERROR at line 1:
+ORA-01920: user name 'JAVA' conflicts with another user or role name 
+
+
+SQL> --우리가 만든 유저로 로그인 해보자
+SQL> --접속을 전활할 때는 connet 명령 사용
+SQL> connect java/1234
+ERROR:
+ORA-01045: user JAVA lacks CREATE SESSION privilege; logon denied 
+
+
+Warning: You are no longer connected to ORACLE.
+SQL> --생성된 유저가 아직 접속할 권한을 부여받지 못했다
+SQL> --최고 권한관리자에게 접속권한을 부여받자
+SQL> show user
+USER is ""
+SQL> connect system/1234
+Connected.
+SQL> show user
+USER is "SYSTEM"
+SQL> grant create session to java;
+
+Grant succeeded.
+
+SQL> --java 계정으로 다시 접속해보기
+SQL> conn java/1234
+Connected.
+SQL> spool off

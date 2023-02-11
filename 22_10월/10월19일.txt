@@ -1,0 +1,268 @@
+SQL> conn java/1234
+Connected.
+SQL> --내가 가진 테이블 조회
+SQL> -- my sql: show tables
+SQL> -- orcle: 사전을 참조
+SQL> --사전의 수가 몇백개라서 암기 불가
+SQL> --다행히도 사전들의 명명규칙이 있다
+SQL> --현재 접속한 사용자가 관리자일 경우 dba_ 접두어
+SQL> --현재 접속한 사용자가 일반사용일 경우 user_ 접두어
+SQL> --table의 구조 조사하자 (어떤 컬럼을 갖고 있는지 모르니까)
+SQL> desc emp;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ EMPNO                                     NOT NULL NUMBER
+ ENAME                                              VARCHAR2(10)
+ JOB                                                VARCHAR2(9)
+ MGR                                                NUMBER
+ HIREDATE                                           DATE
+ SAL                                                NUMBER
+ COMM                                               NUMBER
+ DEPTNO                                             NUMBER
+
+SQL> --테이블의 컬럼명들이 나온다
+SQL> desc user_tables;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ TABLE_NAME                                NOT NULL VARCHAR2(30)
+ TABLESPACE_NAME                                    VARCHAR2(30)
+ CLUSTER_NAME                                       VARCHAR2(30)
+ IOT_NAME                                           VARCHAR2(30)
+ STATUS                                             VARCHAR2(8)
+ PCT_FREE                                           NUMBER
+ PCT_USED                                           NUMBER
+ INI_TRANS                                          NUMBER
+ MAX_TRANS                                          NUMBER
+ INITIAL_EXTENT                                     NUMBER
+ NEXT_EXTENT                                        NUMBER
+ MIN_EXTENTS                                        NUMBER
+ MAX_EXTENTS                                        NUMBER
+ PCT_INCREASE                                       NUMBER
+ FREELISTS                                          NUMBER
+ FREELIST_GROUPS                                    NUMBER
+ LOGGING                                            VARCHAR2(3)
+ BACKED_UP                                          VARCHAR2(1)
+ NUM_ROWS                                           NUMBER
+ BLOCKS                                             NUMBER
+ EMPTY_BLOCKS                                       NUMBER
+ AVG_SPACE                                          NUMBER
+ CHAIN_CNT                                          NUMBER
+ AVG_ROW_LEN                                        NUMBER
+ AVG_SPACE_FREELIST_BLOCKS                          NUMBER
+ NUM_FREELIST_BLOCKS                                NUMBER
+ DEGREE                                             VARCHAR2(40)
+ INSTANCES                                          VARCHAR2(40)
+ CACHE                                              VARCHAR2(20)
+ TABLE_LOCK                                         VARCHAR2(8)
+ SAMPLE_SIZE                                        NUMBER
+ LAST_ANALYZED                                      DATE
+ PARTITIONED                                        VARCHAR2(3)
+ IOT_TYPE                                           VARCHAR2(12)
+ TEMPORARY                                          VARCHAR2(1)
+ SECONDARY                                          VARCHAR2(1)
+ NESTED                                             VARCHAR2(3)
+ BUFFER_POOL                                        VARCHAR2(7)
+ FLASH_CACHE                                        VARCHAR2(7)
+ CELL_FLASH_CACHE                                   VARCHAR2(7)
+ ROW_MOVEMENT                                       VARCHAR2(8)
+ GLOBAL_STATS                                       VARCHAR2(3)
+ USER_STATS                                         VARCHAR2(3)
+ DURATION                                           VARCHAR2(15)
+ SKIP_CORRUPT                                       VARCHAR2(8)
+ MONITORING                                         VARCHAR2(3)
+ CLUSTER_OWNER                                      VARCHAR2(30)
+ DEPENDENCIES                                       VARCHAR2(8)
+ COMPRESSION                                        VARCHAR2(8)
+ COMPRESS_FOR                                       VARCHAR2(12)
+ DROPPED                                            VARCHAR2(3)
+ READ_ONLY                                          VARCHAR2(3)
+ SEGMENT_CREATED                                    VARCHAR2(3)
+ RESULT_CACHE                                       VARCHAR2(7)
+
+SQL> --user_tables가 보유한 컬럼을 조사했으니, 그 내용을 select해보자
+SQL> select table_name from user_tables;
+
+TABLE_NAME                                                                      
+------------------------------------------------------------                    
+TEST                                                                            
+DEPT                                                                            
+EMP                                                                             
+
+SQL> --학습할 회원 테이블 생성하기
+SQL> ed
+Wrote file afiedt.buf
+
+  1  create table member(
+  2  	name varchar2(30)
+  3  	, sal number
+  4  	, gender varchar2(6)
+  5* )
+SQL> /
+
+Table created.
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1* inser into member(name, sal, gender) values('?섑띁留?, 300, 'Man')
+SQL> /
+ERROR:
+ORA-01756: quoted string not properly terminated 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1* insert into member(name, sal, gender) values('super', 300, 'Man')
+SQL> /
+
+1 row created.
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1* insert into member(name, sal, gender) values('ant', 900, 'Man')
+SQL> /
+
+1 row created.
+
+SQL> select * from member;
+
+NAME                                                                SAL         
+------------------------------------------------------------ ----------         
+GENDER                                                                          
+------------                                                                    
+super                                                               300         
+Man                                                                             
+                                                                                
+ant                                                                 900         
+Man                                                                             
+                                                                                
+
+SQL> --sqlpus 툴 자치의 글자수 용량 늘리기
+SQL> set line 300
+SQL> select * from member;
+
+NAME                                                                SAL GENDER                                                                                                                                                                                                                              
+------------------------------------------------------------ ---------- ------------                                                                                                                                                                                                                        
+super                                                               300 Man                                                                                                                                                                                                                                 
+ant                                                                 900 Man                                                                                                                                                                                                                                 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1* insert into member(name, sal, gender) values('wonder', 600, 'woman')
+SQL> /
+
+1 row created.
+
+SQL> select * from member;
+
+NAME                                                                SAL GENDER                                                                                                                                                                                                                              
+------------------------------------------------------------ ---------- ------------                                                                                                                                                                                                                        
+super                                                               300 Man                                                                                                                                                                                                                                 
+ant                                                                 900 Man                                                                                                                                                                                                                                 
+wonder                                                              600 woman                                                                                                                                                                                                                               
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1* insert into member(name, sal, gender) values('wonder', 600, 'woman')
+SQL> /
+
+1 row created.
+
+SQL> select * from member;
+
+NAME                                                                SAL GENDER                                                                                                                                                                                                                              
+------------------------------------------------------------ ---------- ------------                                                                                                                                                                                                                        
+super                                                               300 Man                                                                                                                                                                                                                                 
+ant                                                                 900 Man                                                                                                                                                                                                                                 
+wonder                                                              600 woman                                                                                                                                                                                                                               
+wonder                                                              600 woman                                                                                                                                                                                                                               
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  update member set sal=800
+  2* where name='wonder'
+SQL> /
+
+2 rows updated.
+
+SQL> select * from member;
+
+NAME                                                                SAL GENDER                                                                                                                                                                                                                              
+------------------------------------------------------------ ---------- ------------                                                                                                                                                                                                                        
+super                                                               300 Man                                                                                                                                                                                                                                 
+ant                                                                 900 Man                                                                                                                                                                                                                                 
+wonder                                                              800 woman                                                                                                                                                                                                                               
+wonder                                                              800 woman                                                                                                                                                                                                                               
+
+SQL> --테이블을 생성시, 데이터의 무결성을 위해서는 제약조건을 부여할 수 있는데,
+SQL> --제약조건 종류는 여러가지가 있다.
+SQL> --오늘은 기본키 제약제약조건을 배운다.
+SQL> --영어로 primary key 제약(constraint)조건
+SQL> creatr
+SP2-0042: unknown command "creatr" - rest of line ignored.
+SQL> ed
+Wrote file afiedt.buf
+
+  1  create table member2(
+  2  	member2_id number primary key
+  3  	, name varchar2(30)
+  4  	, sal number
+  5* )
+SQL> /
+
+Table created.
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  create table member2(
+  2  	member2_id number primary key
+  3  	, name varchar2(30)
+  4  	, sal number
+  5* )
+SQL> ed
+Wrote file afiedt.buf
+
+  1  insert into member2(member2_id, name, sal)
+  2* values(1, 'batman', 2000)
+SQL> /
+
+1 row created.
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  insert into member2(member2_id, name, sal)
+  2* values(2, 'batman', 2000)
+SQL> /
+
+1 row created.
+
+SQL> select * from member2;
+
+MEMBER2_ID NAME                                                                SAL                                                                                                                                                                                                                          
+---------- ------------------------------------------------------------ ----------                                                                                                                                                                                                                          
+         1 batman                                                             2000                                                                                                                                                                                                                          
+         2 batman                                                             2000                                                                                                                                                                                                                          
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  insert into member2(member2_id, name, sal)
+  2* values(2, 'batman', 2000)/
+SQL> /
+values(2, 'batman', 2000)/
+                         *
+ERROR at line 2:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> --동일한 정보를 거절한다
+SQL> spool off

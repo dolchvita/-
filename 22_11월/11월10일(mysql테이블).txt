@@ -1,0 +1,28 @@
+cmd 창에서 mysql 접속
+>>> mysql -h localhost -u root -p
+(Enter password)
+>>> use java
+(Database changed)
+
+-primary key : unique + not null  ==> 시스템 자동 입력
+
+create table notice(
+	notice_id int primary key auto_increment
+	, title varchar(100)
+	, writer varchar(20)
+	, content text 
+	, regdate timestamp default now()
+	, hit int default 0
+	) default character set utf8;
+
+ int auto_increament 수로 지정된 자동값
+
+
+DDL 은 rollback 안됨
+
+- desc
+설명해라 (describe)
+
+
+
+

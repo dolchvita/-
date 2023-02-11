@@ -1,0 +1,202 @@
+SQL> -- 제약조건
+SQL> show user
+USER is ""
+SQL> conn java/1234
+Connected.
+SQL> -- 제약조건: 테이블의 레코드를 받을 때 제대로 된 데이터 받기 위해
+SQL> --컬럼에 부여하는 제한조건
+SQL> --unique 제약조건: 중복된 데이터를 불허
+SQL> select table_name from user_tables;
+
+TABLE_NAME                                                                      
+------------------------------------------------------------                    
+TEST                                                                            
+DEPT                                                                            
+EMP                                                                             
+MEMBER                                                                          
+MEMBER2                                                                         
+
+SQL> --연습용 테이블 생성하기 (DDL-create)
+SQL> create table member3(
+  2  name varchar2(20)
+  3  , sal number
+  4  );
+
+Table created.
+
+SQL> insert into member3(name, sal) values('java', 1000);
+
+1 row created.
+
+SQL> --조회하기
+SQL> select * from member3;
+
+NAME                                            SAL                             
+---------------------------------------- ----------                             
+java                                           1000                             
+
+SQL> insert into member3(name, sal) values('java', 1000);
+
+1 row created.
+
+SQL> select * from member3;
+
+NAME                                            SAL                             
+---------------------------------------- ----------                             
+java                                           1000                             
+java                                           1000                             
+
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  create table member5(
+  2  name varchar2(20) unique
+  3  , sal number
+  4* )
+SQL> /
+
+Table created.
+
+SQL> --2 null 제약 조건(널을 허용하지 않는 제약조건)
+SQL> ed
+Wrote file afiedt.buf
+
+  1  create table member6(
+  2  	name varchar2(20) not null
+  3  	, nick varchar2(20) unique
+  4  	, sal number
+  5* )
+SQL> /
+
+Table created.
+
+SQL> insert into member6(name, nick, sal) values(null, 'king', 200);
+insert into member6(name, nick, sal) values(null, 'king', 200)
+                                            *
+ERROR at line 1:
+ORA-01400: cannot insert NULL into ("JAVA"."MEMBER6"."NAME") 
+
+
+SQL> --default 제약조건
+SQL> --사용자가 넣지 않을 경우 , 기본적으로 들어갈 값 지정
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  create table member7(
+  2  	name, varchar2(20)
+  3  	, regdate date default sysdate
+  4  	, sal number default 0
+  5* )
+SQL> /
+	name, varchar2(20)
+	      *
+ERROR at line 2:
+ORA-00904: : invalid identifier 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  create table member7(
+  2  	name, varchar2(20)
+  3  	, regdate date default sysdate
+  4  	, sal number default 0
+  5* )
+SQL> /
+	name, varchar2(20)
+	      *
+ERROR at line 2:
+ORA-00904: : invalid identifier 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  create table member7(
+  2  	name varchar2(20)
+  3  	, regdate date default sysdate
+  4  	, sal number default 0
+  5* )
+SQL> /
+
+Table created.
+
+SQL> insert into member7(name) values('java');
+
+1 row created.
+
+SQL> select * from member7;
+
+NAME                                     REGDATE         SAL                    
+---------------------------------------- -------- ----------                    
+java                                     22/10/24          0                    
+
+SQL> --check 제약 조건
+SQL> --조건에 맞는 데이터만 허용하는 제약조건
+SQL> ed
+Wrote file afiedt.buf
+
+  1  create table member8(
+  2  	name varchar2(20) unique not null
+  3  	, age number
+  4  	, constraint chk_member8 Check (age <18)
+  5* )
+SQL> /
+
+Table created.
+
+SQL> insert into member8(name, age) values('test', 16);
+
+1 row created.
+
+SQL> insert into member8(name, age) values('test', 19);
+insert into member8(name, age) values('test', 19)
+*
+ERROR at line 1:
+ORA-02290: check constraint (JAVA.CHK_MEMBER8) violated 
+
+
+SQL> --unique: 중복을 불허하는 제약조건
+SQL> -- not null: 널을 불허하는 제약조건
+SQL> -- default : 기본값을 지정 제약조건
+SQL> -- check : 지정한 조건만 허용하는 제약조건
+SQL> -- primary key : unique + not null
+SQL> -- foreign key : 조인을 배운 후..
+SQL> -- primary key : 기본키 제역조건
+SQL> -- 주 용도 : 레코드 간 구분을 위한 식별값
+SQL> -- 다른 제약조건은 선택사항이지만, primary key는 반드시 테이블에 명시해야 함
+SQL> ed
+Wrote file afiedt.buf
+
+  1  create table member9(
+  2  	member9_id number primary key
+  3  	, name varchar2(20)
+  4  	, age number
+  5* )
+SQL> /
+
+Table created.
+
+SQL> --primary key가 unique 하면서 not null 인지 확인
+SQL> insert into member9(name, age) values('test',20);
+insert into member9(name, age) values('test',20)
+*
+ERROR at line 1:
+ORA-01400: cannot insert NULL into ("JAVA"."MEMBER9"."MEMBER9_ID") 
+
+
+SQL> insert into member9(member9_id, name, age) values(1,'test',20);
+
+1 row created.
+
+SQL> insert into member9(member9_id, name, age) values(1,'test',20);
+insert into member9(member9_id, name, age) values(1,'test',20)
+*
+ERROR at line 1:
+ORA-00001: unique constraint (JAVA.SYS_C007015) violated 
+
+
+SQL> spool off

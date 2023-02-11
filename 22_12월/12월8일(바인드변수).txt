@@ -1,0 +1,56 @@
+SQL> desc member;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ MEMBER_IDX                                NOT NULL NUMBER
+ ID                                                 VARCHAR2(20)
+ PASS                                               VARCHAR2(64)
+ EMAIL                                              VARCHAR2(50)
+ REGDATE                                            DATE
+
+SQL> --구조설명
+
+SQL> variable id varchar2(20)
+SQL> --문자열 변수 지정과 같음
+
+
+SQL> exec :id :='batman';
+
+SQL> --바인드 변수 지정시 콜론사용
+SQL> select :id from dual;
+
+
+
+SQL> insert into member(member_idx, id, pass)
+  2   values(seq_member.nextval, 'batman', '1234');
+
+1 row created.
+
+SQL> --pass는 문자열 취급
+
+SQL> commit;
+
+SQL> variable id varchar2(20)
+SQL> variable pass varchar2(20)
+SQL> exec :id:='batman';
+
+PL/SQL procedure successfully completed.
+
+SQL> exec :pass:='1234';
+
+SQL> select * from member where id=:id and pass=:pass;
+
+
+MEMBER_IDX ID
+---------- ----------------------------------------
+PASS
+--------------------------------------------------------------------------------
+EMAIL
+--------------------------------------------------------------------------------
+REGDATE
+
+
+
+
+
+
+

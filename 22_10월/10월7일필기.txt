@@ -1,0 +1,172 @@
+SQL> --우리가 생성한 유저로 접속하려 했는데,
+SQL> --실수로 계정을 잊어버림...
+SQL> --시스템과 관련된 정보를 가진 테이블을 가리켜
+SQL> --시스템 테이블 또는 딕셔너리라 한다..
+SQL> select user_name from dba_users;
+
+
+SQL> select username from dba_users;
+
+USERNAME                                                                        
+------------------------------------------------------------                    
+SYS                                                                             
+SYSTEM                                                                          
+ANONYMOUS                                                                       
+JAVA                                                                            
+TEST                                                                            
+APEX_PUBLIC_USER                                                                
+FLOWS_FILES                                                                     
+APEX_040000                                                                     
+OUTLN                                                                           
+DIP                                                                             
+ORACLE_OCM                                                                      
+
+USERNAME                                                                        
+------------------------------------------------------------                    
+XS$NULL                                                                         
+MDSYS                                                                           
+CTXSYS                                                                          
+DBSNMP                                                                          
+XDB                                                                             
+APPQOSSYS                                                                       
+HR                                                                              
+
+18 rows selected.
+
+SQL> --java계정으로 접속을 시도하자
+SQL> conn java/1234
+Connected.
+SQL> --일명 RDBMS라 불리는 모든 제품들은 데이터의
+SQL> --저장 형태를 Table단위로 처리한다.
+SQL> create table test(
+  2  name varchar2(30) --영문30자를 수용할 수 있다
+  3  , age number
+  4  );
+create table test(
+*
+ERROR at line 1:
+ORA-01031: insufficient privileges 
+
+
+SQL> --데이터베이스는 보안이 철저하므로, 로그인뿐 아니라
+SQL> --Table과 관련된 권한까지도 관리자가 부여해야함.
+SQL> --시스템 계정으로 다시 로그인하자.
+SQL> show user
+USER is "JAVA"
+SQL> connec system/1234
+Connected.
+SQL> show user
+USER is "SYSTEM"
+SQL> --테이블과 관련된 모든 권한을 부여하자
+SQL> grant create table to java;
+
+Grant succeeded.
+
+SQL> --다시 java계정으로 접속하자
+SQL> conn java/1234
+Connected.
+SQL> show user
+USER is "JAVA"
+SQL> --이름, 나이 컬럼으로 구성된 테이블 만들기
+SQL> create table test(
+  2  name varchar2(30)
+  3  , age number
+  4  );
+
+Table created.
+
+SQL> --생성된 테이블에 데이터 넣기
+SQL> insert into test(name, age) values('홍길동',25);
+
+1 row created.
+
+SQL> --입력한 레코드들을 조회해보자
+SQL> select name, age from test;
+
+NAME                                                                AGE         
+------------------------------------------------------------ ----------         
+홍길동                                                               25         
+
+SQL> insert into test(name, age) values('류예서',24);
+
+1 row created.
+
+SQL> insert into test(name, age) values('배트맨',30);
+
+1 row created.
+
+SQL> --3사람의 정보를 출력하자
+SQL> select name, age from test;
+
+NAME                                                                AGE         
+------------------------------------------------------------ ----------         
+홍길동                                                               25         
+류예서                                                               24         
+배트맨                                                               30         
+
+SQL> insert into test(name, age) values('antman', 29);
+
+1 row created.
+
+SQL> select name, age from test;
+
+NAME                                                                AGE         
+------------------------------------------------------------ ----------         
+홍길동                                                               25         
+류예서                                                               24         
+배트맨                                                               30         
+antman                                                               29         
+
+SQL> --레코드를 수정해본다.
+SQL> update test set age=37;
+
+4 rows updated.
+
+SQL> select name, age from test;
+
+NAME                                                                AGE         
+------------------------------------------------------------ ----------         
+홍길동                                                               37         
+류예서                                                               37         
+배트맨                                                               37         
+antman                                                               37         
+
+SQL> update test set age=25 where name='antman';
+
+1 row updated.
+
+SQL> select name, age from test;
+
+NAME                                                                AGE         
+------------------------------------------------------------ ----------         
+홍길동                                                               37         
+류예서                                                               37         
+배트맨                                                               37         
+antman                                                               25         
+
+SQL> --레코드 넣기 insert
+SQL> --수정 update
+SQL> --생성 create
+SQL> --레코드 한건 삭제해보기
+SQL> delete test where name='antman';
+
+1 row deleted.
+
+SQL> select name, age from test;
+
+NAME                                                                AGE         
+------------------------------------------------------------ ----------         
+홍길동                                                               37         
+류예서                                                               37         
+배트맨                                                               37         
+
+SQL> create table dept(
+  2  deptno number
+  3  ,dname varchar2(14)
+  4  ,loc varchar2(13)
+  5  ,primary key(deptno)
+  6  );
+
+Table created.
+
+SQL> spool off

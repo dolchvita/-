@@ -1,0 +1,80 @@
+* FILO
+stack의 데이터 관리 방법 (뜻은 모름)
+
+오라클 함수 연습
+
+1. 사원들의 급여에서 1000을 뺀 급여의 값을 출력하되, 음수가 나오지 않도록 절대값으로
+   출력하시오 (수와 관련된 함수에서 찾아보기)
+
+select abs(sal-1000) as sal from emp;
+
+
+2.실수 1.1 ~ 1.9 사이의 값들을 대상으로 함수를 적용하면, 이 값들보다 큰 최소 정수인 2
+    가 반환되어 출력되도록 처리해보세요(수와 관련된 함수에서 찾아보기)
+
+select ceil(1.5) from dual;
+
+
+3. 실수 3.14 ~ 3.99 사이의 값들을 대상으로 함수를 적용하면, 이 값들보다 작은 최소 정수
+    인 3이 반환되어 출력되도록 처리해보세요
+
+select floor(3.14) from dual;
+
+
+4. 77을 10으로 나누었을때의 나머지값을 출력하세요 (수와 관련된 함수에서 찾아보기)
+select mod(77,10) as result from dual;
+
+
+5.아래와 같이 사원의 이름, 급여를 출력하되, 급여는 '연봉'이라는 컬럼명으로 , 데이터에는 '만원'이 
+  함께 출력되도록 하세요
+
+select ename, concat(sal, '만원') as 연봉 from emp;
+
+
+6.사원의 이름, 급여, 업무를 출력하되 업무는 소문자로 출력하세요 (문자 관련 함수에서 찾아보기)
+
+select ename, sal, lower(job) "업무" from emp;
+
+
+7.사원의 이름을 대상으로 앞에서부터 2글자만 소문자로 변환하여 출력해보세요
+
+select lower(substr(ename, 1,2)) "이름" from emp;
+
+
+8.사원의 이름, 업무를 출력하되 'SALESMAN'인 경우 한국어로 '영업사원'으로 대체하여 출력하세요
+
+select ename, replace(job, 'SALESMAN', '영업사원') as JOB from emp;
+
+
+9. 사원의 이름과 그 이름의 글자수를 출력하세요  (문자 관련 함수에서 찾아보기)
+
+select ename, length(ename) "글자수" from emp;
+
+
+10. 사원의 이름과 , 그 이름의 제일 뒤에 문자를 소문자로 변경한 결과를 
+출력하세요
+
+select ename, lower(substr(ename, length(ename), 1)) "SHORT" from emp;
+
+
+11. 다음과 같이 입사일과 그 입사일을 하이픈 '-' 형식으로 변경한 형식으로 출력해보세요
+
+select hiredate, to_char(hiredate, 'yyyy-mm-dd') "입사일" from emp;
+//날짜를 문자로 바꾼 것!
+
+
+12.SCOTT의 이름, 입사일, 결과를 출력하되 
+    결과값은 입사일에서 24개월 후의 날짜가 출력되도록 하세요
+
+select ename, hiredate, add_months(hiredate, 24) as 결과 from emp;
+
+
+13.오늘로 부터 100일 뒤엔 몇월 몇일인지, 하이픈으로 '-' 구분되게 출력하시오
+
+select sysdate+100 as DDAY from dual;
+
+
+14. 다음과 같이 문자열로 된 날짜를 실제 날짜로 변환해보세요
+
+select round(to_date('2022/11/08')) as RESULT from dual;
+

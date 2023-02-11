@@ -1,0 +1,32 @@
+유저 확인(mysql)
+
+show database;
+use jsp;
+
+
+-- 유저 생성
+create user
+
+-- 권한 부여
+유저라기보다는 데이터베이스의 개념이기 때문에, 유저를 만들 때
+권한 부여를 따로 하지 않는다!
+
+
+flush privileges;
+
+
+-- 권한 조회
+ show grant;
+
+
+-- 테이블 조회
+show table_name from user_table;
+
+
+
+
+
+
+
+
+

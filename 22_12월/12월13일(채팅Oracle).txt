@@ -1,0 +1,18 @@
+<Oracle>
+create table chatmember(
+chatmember_idx number primary key
+, id varchar2(20)
+, pass varchar2(20)
+, name varchar2(20)
+, regdate date default sysdate
+);
+
+
+create sequence seq_chatmember
+increment by 1
+start with 1;
+
+
+
+
+

@@ -1,0 +1,23 @@
+create table comments(
+ comments_idx number primary key
+ , msg varchar2(30)
+ , author varchar2(30)
+ , writedate date default sysdate
+ , constraint fk_news_comments foreign key(news_idx) refereneces news(news_idx)
+)
+
+
+
+mysql 버전
+create table comments(
+	comments_idx int primary key auto_increment
+	, msg varchar(20)
+	, author varchar(20)
+	, writedate timestamp default now()
+	, constraint fk
+)default character set utf8;
+
+
+
+
+

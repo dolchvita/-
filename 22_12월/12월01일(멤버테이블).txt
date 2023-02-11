@@ -1,0 +1,21 @@
+AppMain 실습용
+--회원테이블 만들기!
+
+디비버에 입력한 내용!
+--테이블 생성
+CREATE TABLE member(
+	member_idx NUMBER PRIMARY KEY
+	, id varchar2(20)
+	, pass varchar2(64)	--sha256에 의한 64자
+	, email varchar2(50)
+	, regdate DATE DEFAULT sysdate
+);
+
+--시퀀스 생성
+CREATE SEQUENCE seq_member
+INCREMENT BY 1
+START WITH 1;
+
+
+
+

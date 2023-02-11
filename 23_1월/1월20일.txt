@@ -1,0 +1,90 @@
+JspShop 프로젝트
+registform.jsp
+
+
+1. 등록하기
+
+내장 객체들은 요청을 처리하는 객체
+--> 서비스 메서드 영역에서 생성할 수 있음
+
+
+체크박스 -> 배열로 처리하기
+체크되어 있는지 확인하고 체크된 것만 리스트에 담기
+
+
+자바스크립트의 개선된 for문
+
+배열로 넘어온 데이터 안에 있는 개수를 어떻게 알까?
+--> 
+
+
+입력시 리스트까지 넣어야 하지 않을까?
+
+
+
+
+2. pk 입력하기
+
+- <selectKey>
+  last_insert_id() 가져오기
+  insaert문 안에서 실행
+  keyColumn -> 가져올 키 값이 담긴 alias
+  idx에 pk를 넣겠다 왜?
+  insert가 수행되기 전에 값이 들어있지 않으니까
+
+  keyProperty는? insert 안에 살아있는 Product
+
+  결국 파라미터로 달라온 Product에 유일하게 없는 idx를 세팅하겠다는 것!
+
+
+inser 문에서 result 를 반환받지 않음 -> 예외처리로 던졌기 때문
+
+그대신 DAO에서 결과를 확인한 후 Runtime 예외를 생성했다
+
+
+*** 트랜잭션!
+한개씩 성공시키며 확인하기 . .
+
+
+
+
+3.테이블 출력하기
+
+// product , category 조인된 테이블!
+
+json이 또 안 넘어온다...
+
+list.jsp는 리액트 필요없음! -> 동기 방식으로 넘어가기 때문에
+조인문의 형태로 가져와야 하기 때문에 assciation처리를 한다!!
+
+//--
+
+자식이 부모 참조하기 association!
+수동 매핑
+- type
+   id 는 이 resultMap 을 참조할 때 명시할 이름과 같은 id!
+
+type ! 
+primary key == id 태그로 지정 		-- 테이블 내 column과 DTO의 property 일치시키기 !!
+나머지 == result 태그로 지정
+
+★ 조인의 대상 association
+javaType	-- 실제 자바 자료형!
+select		-- 조인될 대상의 쿼리문 참조하기
+
+
+
+1. 수동 매핑 작성하기
+2. 매핑시 참조할 부모 테이블의 쿼리문 작성하기 (Mapper)
+3. select  resultMap 
+
+
+
+
+검색 기능
+
+select * from product
+
+
+
+
