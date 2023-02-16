@@ -1,0 +1,12 @@
+create table photo(
+	photo_idx number primary key
+	, filename varchar2(30)
+	, gallery_idx number
+	, constraint fk_gallrey_photo foreign key(gallery_idx) references gallery(gallery_idx)
+);
+
+
+create sequence seq_photo
+increment by 1
+start with 1;
+
