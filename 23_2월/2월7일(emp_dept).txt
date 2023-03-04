@@ -1,0 +1,52 @@
+create table dept(
+	deptno int primary key auto_increment
+	, dname varchar(20)
+)default character set utf8;
+
+
+
+create table emp(
+	empno int primary key auto_increment
+	, ename varchar(20)
+	, sal int default 3200
+	, deptno int
+	, constraint fk_dept_emp foreign key(deptno) references dept(deptno)
+)default character set utf8;
+
+
+========================================oracle.ver
+
+
+create table dept(
+	deptno number primary key
+	, dname varchar2(20)
+);
+
+
+create sequence seq_dept
+increment by 1
+start with 1;
+
+
+create table emp(
+	empno number primary key
+	, ename varchar2(20)
+	, sal int default 3200
+	, deptno number
+	, constraint fk_dept_emp foreign key(deptno) references dept(deptno)
+);
+
+create sequence seq_emp
+increment by 1
+start with 1;
+
+
+
+외래키 명시하는 거 아직도 헷갈리면 어떡해?
+이건 문법이야..
+제약조건이 있다 외래키이름 외래키이다(얘를기준) 참조한다 이테이블의(이외래키를)
+
+때려 맞추지 말고 정확하게 알고 사용할 것!
+
+
+
